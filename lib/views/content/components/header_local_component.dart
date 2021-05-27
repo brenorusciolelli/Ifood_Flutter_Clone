@@ -24,7 +24,7 @@ class HeaderLocationComponent extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Row(
                   children: [
-                    Text(location, style: AppTypograph.bodyTextBold(context)),
+                    Text(location, style: AppTypograph.localTextStyle(context)),
                     AppIcon(
                       AppIcons.arrowDown,
                       size: Size(20, 20),
