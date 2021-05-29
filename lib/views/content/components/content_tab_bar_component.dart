@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ifood_flutter_clone/core/theme/app_colors.dart';
-import 'package:ifood_flutter_clone/core/theme/app_typograph.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
+
+import 'package:ifood_flutter_clone/core/theme/app_colors.dart';
+import 'package:ifood_flutter_clone/core/theme/app_icons.dart';
+import 'package:ifood_flutter_clone/core/theme/app_typograph.dart';
 
 class ContentTabBarComponent extends StatelessWidget {
   final TabController controller;
@@ -13,6 +15,24 @@ class ContentTabBarComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return SliverPersistentHeader(
+      delegate: _ContentTabBarComponentDelegate(controller, onTap),
+    );
+  }
+}
+
+class _ContentTabBarComponentDelegate extends SliverPersistentHeaderDelegate {
+  final TabController controller;
+  final Function(int) onTap;
+
+  _ContentTabBarComponentDelegate(
+    this.controller,
+    this.onTap,
+  );
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Padding(
       padding: const EdgeInsets.only(left: 16, right: 170),
       child: TabBar(
@@ -38,5 +58,18 @@ class ContentTabBarComponent extends StatelessWidget {
             Tab(child: Text('Mercados')),
           ]),
     );
+  }
+
+  @override
+  // TODO: implement maxExtent
+  double get maxExtent => 60;
+
+  @override
+  // TODO: implement minExtent
+  double get minExtent => 60;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
   }
 }
