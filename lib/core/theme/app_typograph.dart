@@ -29,8 +29,15 @@ class AppTypograph {
 
   static TextStyle localTextStyle(BuildContext context) {
     return Theme.of(context).textTheme.bodyText1.copyWith(
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.normal,
           fontSize: 13,
         );
+  }
+
+  static TextStyle filterItemStyle(BuildContext context) {
+    return Theme.of(context).textTheme.bodyText1.copyWith(
+        color: AppColors.primaryColor,
+        fontWeight: FontWeight.w700,
+        fontSize: 12);
   }
 }

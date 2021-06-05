@@ -4,6 +4,7 @@ import 'package:ifood_flutter_clone/core/theme/app_icons.dart';
 import 'package:ifood_flutter_clone/models/category.dart';
 import 'package:ifood_flutter_clone/views/content/components/bottom_navigator_component.dart';
 import 'package:ifood_flutter_clone/views/content/components/category_item_component.dart';
+import 'package:ifood_flutter_clone/views/content/components/filters_components.dart';
 
 import 'components/content_tab_bar_component.dart';
 import 'components/header_local_component.dart';
@@ -30,85 +31,88 @@ class _ContentPageState extends State<ContentPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         body: SafeArea(
-      child: NestedScrollView(
-          physics: BouncingScrollPhysics(),
-          headerSliverBuilder: (context, innerBoxScroll) {
-            return [
-              HeaderLocationComponent(
-                location: 'Rua Jacarepagua, número 20',
-              ),
-              ContentTabBarComponent(
-                  controller: tabController, onTap: (index) {})
-            ];
-          },
-          body: Column(
-            children: [
-              Expanded(
-                child: RefreshIndicator(
-                  onRefresh: () async {
-                    return await Future.value();
-                  },
-                  child: CustomScrollView(
-                    physics: BouncingScrollPhysics(),
-                    slivers: [
-                      SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: 86,
-                          child: ListView.builder(
-                            itemCount: categorys.length,
-                            scrollDirection: Axis.horizontal,
-                            physics: BouncingScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) {
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                  left: index == 0 ? 16 : 0,
-                                  right:
-                                      index == categorys.length - 1 ? 16 : 12,
-                                ),
-                                child: CategoryItemComponent(
-                                  category: categorys[index],
-                                ),
-                              );
-                            },
+          child: NestedScrollView(
+              physics: BouncingScrollPhysics(),
+              headerSliverBuilder: (context, innerBoxScroll) {
+                return [
+                  HeaderLocationComponent(
+                    location: 'Rua Jacarepagua, número 20',
+                  ),
+                  ContentTabBarComponent(
+                      controller: tabController, onTap: (index) {}),
+                  FilterComponent(),
+                ];
+              },
+              body: Column(
+                children: [
+                  Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: () async {
+                        return await Future.value();
+                      },
+                      child: CustomScrollView(
+                        physics: BouncingScrollPhysics(),
+                        slivers: [
+                          SliverToBoxAdapter(
+                            child: SizedBox(
+                              height: 86,
+                              child: ListView.builder(
+                                itemCount: categorys.length,
+                                scrollDirection: Axis.horizontal,
+                                physics: BouncingScrollPhysics(),
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                      left: index == 0 ? 16 : 0,
+                                      right: index == categorys.length - 1
+                                          ? 16
+                                          : 12,
+                                    ),
+                                    child: CategoryItemComponent(
+                                      category: categorys[index],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  BottomNavigatorComponent(
+                    onTap: (index) {
+                      setState(() {
+                        _currentIndex = index;
+                      });
+                    },
+                    currentIndex: _currentIndex,
+                    items: [
+                      BottomNavigatorComponentItem(
+                        label: 'Início',
+                        activeIcon: AppIcons.homeActive,
+                        icon: AppIcons.home,
+                      ),
+                      BottomNavigatorComponentItem(
+                          label: 'Busca',
+                          activeIcon: AppIcons.searchActive,
+                          icon: AppIcons.search),
+                      BottomNavigatorComponentItem(
+                        label: 'Pedidos',
+                        activeIcon: AppIcons.ordersActive,
+                        icon: AppIcons.orders,
+                      ),
+                      BottomNavigatorComponentItem(
+                        label: 'Perfil',
+                        activeIcon: AppIcons.profileActive,
+                        icon: AppIcons.profile,
                       ),
                     ],
                   ),
-                ),
-              ),
-              BottomNavigatorComponent(
-                onTap: (index) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-                currentIndex: _currentIndex,
-                items: [
-                  BottomNavigatorComponentItem(
-                    label: 'Início',
-                    activeIcon: AppIcons.homeActive,
-                    icon: AppIcons.home,
-                  ),
-                  BottomNavigatorComponentItem(
-                      label: 'Busca',
-                      activeIcon: AppIcons.searchActive,
-                      icon: AppIcons.search),
-                  BottomNavigatorComponentItem(
-                    label: 'Pedidos',
-                    activeIcon: AppIcons.ordersActive,
-                    icon: AppIcons.orders,
-                  ),
-                  BottomNavigatorComponentItem(
-                    label: 'Perfil',
-                    activeIcon: AppIcons.profileActive,
-                    icon: AppIcons.profile,
-                  ),
                 ],
-              ),
-            ],
-          )),
-    ));
+              )),
+        ));
   }
 }
